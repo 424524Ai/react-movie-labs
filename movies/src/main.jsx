@@ -24,6 +24,7 @@ import SiteHeader from './components/siteHeader'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 // 导入 react-query 的开发者工具组件，用于调试查询状态和缓存。
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import MoviesContextProvider from "./contexts/moviesContext";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -42,18 +43,21 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <SiteHeader />
-        <Routes>
-          <Route path="/movies/favorites" element={<FavoriteMoviesPage />} />
-          <Route path="/reviews/:id" element={ <MovieReviewPage /> } />
-          <Route path="/movies/:id" element={<MoviePage />} />
-          <Route path="/" element={<HomePage />} />
-          <Route path="*" element={ <Navigate to="/" /> } />
-        </Routes>
+        <MoviesContextProvider>
+          <Routes>
+            <Route path="/movies/favorites" element={<FavoriteMoviesPage />} />
+            <Route path="/reviews/:id" element={ <MovieReviewPage /> } />
+            <Route path="/movies/:id" element={<MoviePage />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="*" element={ <Navigate to="/" /> } />
+          </Routes>
+        </MoviesContextProvider>
       </BrowserRouter>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 };
+
 
 
 const rootElement = createRoot( document.getElementById("root") )
