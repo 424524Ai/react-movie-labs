@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+// import React, { useState } from "react";
+import React, {createContext, useState} from "react";
 
 export const MoviesContext = React.createContext(null);
 
 const MoviesContextProvider = (props) => {
   const [favorites, setFavorites] = useState( [] )
   const [myReviews, setMyReviews] = useState( {} )
-
+  const [mustWatch, setMustWatch] = useState( [] )
+  
   const addToFavorites = (movie) => {
     let newFavorites = [];
     if (!favorites.includes(movie.id)){
@@ -29,6 +31,18 @@ const MoviesContextProvider = (props) => {
   };
   //console.log(myReviews);
 
+  const addToMustWatch = (movie) => {
+    let newMustWatches = [];
+    if (!mustWatch.includes(movie.id)){
+      newMustWatches = [...mustWatch, movie.id];
+    }
+    else{
+      newMustWatches = [...mustWatch];
+    }
+    setMustWatch(newMustWatches)
+  };
+  console.log(mustWatch);
+
   return (
     <MoviesContext.Provider
       value={{
@@ -36,6 +50,8 @@ const MoviesContextProvider = (props) => {
         addToFavorites,
         removeFromFavorites,
         addReview,
+        mustWatch,
+        addToMustWatch,
       }}
     >
       {props.children}
